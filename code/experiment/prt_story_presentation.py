@@ -34,9 +34,11 @@ pause_dur = 1.0  # Pause duration between story and questions
 
 # %% Load story and question data
 # Set up paths - normalize to forward slashes for cross-platform compatibility
-pilot_path = "C:/Users/Admin/Desktop/PRT_EEG_pilot/"
-stim_path = pilot_path+"stim_normalized/"
-csv_path = pilot_path+"code/stim_preprocessing/story_questions_mapping_new.csv"
+# Set up paths - normalize to forward slashes for cross-platform compatibility
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.join(script_dir, '..', '..')
+stim_path = os.path.join(project_root, 'stim_normalized')
+csv_path = os.path.join(project_root, 'code', 'stimuli_preprocessing', 'story_questions_mapping_new.csv')
 
 if not os.path.exists(csv_path):
     raise FileNotFoundError(f"CSV file not found: {csv_path}")
@@ -103,7 +105,7 @@ for idx, story_row in stories_df.iterrows():
 
     # Load story audio
     # Normalize to forward slashes (works on all platforms)
-    story_file = f"{pilot_path}/{story_row['story_path']}"
+    story_file = os.path.join(project_root, story_row['story_path'])
     print(f"Loading story: {story_name} ({story_id})")
     try:
         temp, _ = read_wav(story_file)
@@ -120,7 +122,7 @@ for idx, story_row in stories_df.iterrows():
 
     for _, q_row in story_questions.iterrows():
         # Normalize to forward slashes (works on all platforms)
-        q_file = f"{pilot_path}/{q_row['question_audio_path']}"
+        q_file = os.path.join(project_root, q_row['question_audio_path'])
         try:
             temp, _ = read_wav(q_file)
             question_audio[story_id].append({
@@ -181,7 +183,7 @@ def background_load_buffer(ec, audio_data, trial_id, callback=None):
 # %% Experiment instructions
 instruction_text_1 = """Great job with the clicks! Now we are going to listen to some stories.\n\n
 
-You will listen to 5 different stories.\n
+You will listen to different stories.\n
 
 After each story, you will answer 5 questions about what you heard.\n
 

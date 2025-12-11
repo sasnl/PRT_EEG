@@ -33,9 +33,13 @@ stim_db = 65  # Stimulus volume in dB
 
 # %% Load data
 # Set up paths
-pilot_path = "C:/Users/Admin/Desktop/PRT_EEG_pilot/"
-click_path = pilot_path + "stim_normalized/click/"
-sound_check_file = pilot_path + "stim_normalized/12008_1_1_happy/story/12008_1_1_happy_studio.wav"
+# Set up paths
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.join(script_dir, '..', '..')
+stim_path = os.path.join(project_root, 'stim_normalized')
+
+click_path = os.path.join(stim_path, "click")
+sound_check_file = os.path.join(stim_path, "12008_1_1_happy", "story", "12008_1_1_happy_studio.wav")
 
 # Load click files
 click_files = sorted(glob.glob(os.path.join(click_path, "click*.wav")))
