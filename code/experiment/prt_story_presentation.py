@@ -259,7 +259,7 @@ with ExperimentController(**ec_args) as ec:
         print(f"{'='*60}")
 
         # Display story prompt
-        ec.screen_text(f"Story {story_idx + 1} of {len(stories_df)}: {story_id}",
+        ec.screen_text(f"Story {story_idx + 1} of {len(stories_df)}",
                       pos=[0, 0.2], units='norm', color='w')
         ec.flip()
 
