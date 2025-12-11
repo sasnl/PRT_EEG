@@ -57,7 +57,7 @@ Please tell us if you can hear it clearly!
 """
 
 instruction_clicks = """
-Great! Now we are going to listen to some funny clicking sounds!
+Great! Now we are going to listen to some clicking sounds!
 """
 
 instruction_end = """
@@ -151,6 +151,7 @@ with ExperimentController(**ec_args) as ec:
         print(f"Loaded {len(loaded_clicks)} click trains.")
         
         for i, click_data in enumerate(loaded_clicks):
+            ec.screen_prompt(f"click: {i+1} min out of {len(loaded_clicks)} min", live_keys=['space'])
             ec.load_buffer(click_data)
             
             # Show fixation cross for 1 second before click train starts
@@ -187,4 +188,4 @@ with ExperimentController(**ec_args) as ec:
     # --- End ---
     ec.screen_prompt(instruction_end, live_keys=['space'])
 
-print("Click presentation completed!")
+print("Click sounds completed!")
