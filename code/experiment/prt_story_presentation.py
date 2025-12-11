@@ -68,7 +68,7 @@ print(f"Found {len(stories_df)} stories to present")
 # Display available stories
 print("\nAvailable stories:")
 for idx, story_row in stories_df.iterrows():
-    print(f"  {idx + 1}. {story_row['story_name']} ({story_row['story_id']}) - {story_row['emotion']}")
+    print(f"  {idx + 1}. {story_row['story_id']} - {story_row['emotion']}")
 
 # Ask user which story to start from
 while True:
@@ -88,7 +88,7 @@ while True:
     except ValueError:
         print("Please enter a valid number")
 
-print(f"\nStarting from story {start_story_idx + 1}: {stories_df.iloc[start_story_idx]['story_name']}")
+print(f"\nStarting from story {start_story_idx + 1}: {stories_df.iloc[start_story_idx]['story_id']}")
 
 # Filter stories from starting point
 stories_df = stories_df.iloc[start_story_idx:].reset_index(drop=True)
@@ -101,12 +101,12 @@ question_audio = {}
 
 for idx, story_row in stories_df.iterrows():
     story_id = story_row['story_id']
-    story_name = story_row['story_name']
+
 
     # Load story audio
     # Normalize to forward slashes (works on all platforms)
     story_file = os.path.join(project_root, story_row['story_path'])
-    print(f"Loading story: {story_name} ({story_id})")
+    print(f"Loading story: {story_id}")
     try:
         temp, _ = read_wav(story_file)
         story_audio[story_id] = temp
@@ -251,15 +251,15 @@ with ExperimentController(**ec_args) as ec:
     # Loop through each story
     for story_idx, story_row in stories_df.iterrows():
         story_id = story_row['story_id']
-        story_name = story_row['story_name']
+
         emotion = story_row['emotion']
 
         print(f"\n{'='*60}")
-        print(f"Story {story_idx + 1}/{len(stories_df)}: {story_name} ({emotion})")
+        print(f"Story {story_idx + 1}/{len(stories_df)}: {story_id} ({emotion})")
         print(f"{'='*60}")
 
         # Display story prompt
-        ec.screen_text(f"Story {story_idx + 1} of {len(stories_df)}: {story_name}",
+        ec.screen_text(f"Story {story_idx + 1} of {len(stories_df)}: {story_id}",
                       pos=[0, 0.2], units='norm', color='w')
         ec.flip()
 
@@ -309,7 +309,7 @@ with ExperimentController(**ec_args) as ec:
             ec.write_data_line("story", {
                 "story_num": story_idx,
                 "story_id": story_id,
-                "story_name": story_name,
+
                 "emotion": emotion,
                 "duration": story_duration
             })
