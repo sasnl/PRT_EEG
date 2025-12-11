@@ -1,0 +1,16 @@
+filename,emotion,gender,adult_kid,duration_seconds,f0_min_hz,f0_max_hz,pitch_range_hz,mean_pitch_hz,pitch_variability_hz,phonation_time_ratio,syllable_rate,in_pilot,in_SL
+12008_1_1_happy_studio.wav,happy,male,kid,208.5,77.38,397.89,320.51,228.44,28.48,0.521,5.61,Y,Y
+12008_1_1_sad_studio.wav,sad,male,kid,337.562,75.06,374.72,299.65,218.8,25.36,0.5029,5.27,Y,N
+12008_1_2_happy_studio.wav,happy,male,kid,280.617,78.13,397.11,318.98,244.08,30.64,0.4388,4.88,N,N
+12008_1_2_sad_studio.wav,sad,male,kid,141.182,75.95,358.16,282.21,227.45,31.05,0.4853,5.21,N,N
+12014_1_2_happy_studio.wav,happy,female,adult,136.489,74.98,399.71,324.73,192.73,39.88,0.4937,6.39,N,N
+12014_1_2_sad_studio.wav,sad,female,adult,151.763,88.84,399.7,310.86,185.14,29.32,0.5442,6.1,N,N
+12014_1_2_spontaneous_studio.wav,spontaneous,female,adult,140.755,75.41,399.24,323.83,182.8,34.05,0.5276,5.8,N,N
+12015_1_2_happy_studio.wav,happy,female,adult,147.411,75.47,399.55,324.08,246.44,50.33,0.6232,5.81,N,N
+12015_1_2_sad_studio.wav,sad,female,adult,145.278,75.23,399.6,324.37,242.4,42.28,0.5996,5.73,Y,N
+12016_1_1_happy_studio.wav,happy,female,adult,411.518,74.99,399.97,324.99,234.57,51.92,0.602,6.73,N,N
+12016_1_2_happy_studio.wav,happy,female,adult,208.425,75.52,399.98,324.46,249.94,49.59,0.6236,6.95,Y,N
+12016_1_2_sad_studio.wav,sad,female,adult,198.355,76.11,399.94,323.83,240.74,48.71,0.6167,7,Y,Y
+9227_3_1_Happy1_studio.wav,happy,male,kid,50.062,76.48,392.19,315.71,259.17,46.04,0.5737,5.09,N,N
+9227_3_1_Sad2_studio.wav,sad,male,kid,90.093,77.5,385.35,307.85,248.25,44.81,0.5419,5.25,N,N
+9227_3_1_spontaneous_studio.wav,spontaneous,male,kid,111.827,78.76,396.79,318.03,247.49,48.58,0.5585,5.27,N,N
