@@ -107,12 +107,18 @@ with ExperimentController(**ec_args) as ec:
     # Identify trial
     ec.identify_trial(ec_id="sound_check", ttl_id=[])
     
+    # Show fixation cross for 1 second before sound check starts
+    ec.screen_text("+", pos=(0.75, 0), units='norm', color='white', font_size=64)
+    ec.flip()
+    ec.wait_secs(1.0)
+    
     # Start stimulus
     t_start = ec.start_stimulus()
     
-    # Show cross
+    # Redraw cross after starting stimulus so it stays on screen
     ec.screen_text("+", pos=(0.75, 0), units='norm', color='white', font_size=64)
     ec.flip()
+    ec.wait_secs(0.1)
     
     # Wait 10 seconds
     while ec.current_time < t_start + 10.0:
@@ -145,16 +151,23 @@ with ExperimentController(**ec_args) as ec:
         print(f"Loaded {len(loaded_clicks)} click trains.")
         
         for i, click_data in enumerate(loaded_clicks):
+            ec.load_buffer(click_data)
+            
+            # Show fixation cross for 1 second before click train starts
             ec.screen_text("+", pos=(0.75, 0), units='norm', color='white', font_size=64)
             ec.flip()
-            
-            ec.load_buffer(click_data)
+            ec.wait_secs(1.0)
             
             # Identify trial
             ec.identify_trial(ec_id=f"click_{i}", ttl_id=[])
             
             # Start
             t_start = ec.start_stimulus()
+
+            # Redraw cross after starting stimulus so it stays on screen
+            ec.screen_text("+", pos=(0.75, 0), units='norm', color='white', font_size=64)
+            ec.flip()
+            ec.wait_secs(0.1)
             
             # Send trigger (simple 1 for all clicks for now, or i+1)
             ec.stamp_triggers([1])
