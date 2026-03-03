@@ -40,7 +40,7 @@ The experiment session follows this order:
 
 1. **Click presentation** — run `prt_click_presentation.py <pid> <session>` (sound check + 5 minutes of click trains)
 2. **Click QC** — run `click_qc.py` on the recorded data to verify ABR signal quality
-3. **Story experiment** — run `prt_story_presentation.py <pid> <session>` (~30 min of stories + questions)
+3. **Story experiment** — run `prt_story_presentation.py <pid> <session> <order>` (~30 min of stories + questions)
 
 ---
 
@@ -221,23 +221,24 @@ Presents 8 emotional prosody stories (~30 min total) with comprehension question
 ### How to run
 
 ```bash
-python code/experiment/prt_story_presentation.py <participant_id> <session>
+python code/experiment/prt_story_presentation.py <participant_id> <session> <order>
 ```
 
 **Example:**
 
 ```bash
-python code/experiment/prt_story_presentation.py 12544 01
+python code/experiment/prt_story_presentation.py 12544 01 A
 ```
 
 | Argument | Description | Example |
 |----------|-------------|---------|
 | `participant_id` | Participant ID number | `12544` |
 | `session` | Session number | `01` |
+| `order` | Story presentation order | `A`, `B`, `C`, or `D` |
 
 ### Stimulus pool
 
-All participants receive the same 8 stories (~29.5 min total audio):
+All participants receive the same 8 stories (~29.5 min total audio), but in different orders depending on the `order` argument:
 
 | Story | Emotion | Duration |
 |-------|---------|----------|
@@ -251,6 +252,23 @@ All participants receive the same 8 stories (~29.5 min total audio):
 | 9227_3_1_spontaneous | spontaneous | 1.9 min |
 
 Each story is followed by 5 comprehension questions (3 multiple-choice + 2 free response). The stimulus pool is defined in `code/stimuli_preprocessing/story_questions_mapping_pool.csv`.
+
+### Presentation orders
+
+Stories are pseudo-randomized using a Latin square design (4 rows from an 8x8 cyclic Latin square, evenly spaced). Each story appears in each position at most once across the 4 orders. Orders are also emotion-aware — max 1 consecutive same-emotion pair per order.
+
+| Position | Order A | Order B | Order C | Order D |
+|----------|---------|---------|---------|---------|
+| 1 | 12008_1_1 (sad) | 12008_1_2 (sad) | 12015_1_2 (sad) | 12016_1_2 (happy) |
+| 2 | 12008_1_2 (happy) | 12014_1_2 (happy) | 12016_1_1 (happy) | 9227_3_1 (spon.) |
+| 3 | 12008_1_2 (sad) | 12015_1_2 (sad) | 12016_1_2 (happy) | 12008_1_1 (sad) |
+| 4 | 12014_1_2 (happy) | 12016_1_1 (happy) | 9227_3_1 (spon.) | 12008_1_2 (happy) |
+| 5 | 12015_1_2 (sad) | 12016_1_2 (happy) | 12008_1_1 (sad) | 12008_1_2 (sad) |
+| 6 | 12016_1_1 (happy) | 9227_3_1 (spon.) | 12008_1_2 (happy) | 12014_1_2 (happy) |
+| 7 | 12016_1_2 (happy) | 12008_1_1 (sad) | 12008_1_2 (sad) | 12015_1_2 (sad) |
+| 8 | 9227_3_1 (spon.) | 12008_1_2 (happy) | 12014_1_2 (happy) | 12016_1_1 (happy) |
+
+Assign orders to participants in rotation: participant 1 → A, participant 2 → B, participant 3 → C, participant 4 → D, participant 5 → A, etc.
 
 ### What it does
 

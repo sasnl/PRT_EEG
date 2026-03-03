@@ -8,10 +8,10 @@ to comprehension questions. Stories are played with audio, followed by question 
 and visual response options.
 
 Usage:
-    python prt_story_presentation.py <participant_id> <session>
+    python prt_story_presentation.py <participant_id> <session> <order>
 
 Example:
-    python prt_story_presentation.py 12544 01
+    python prt_story_presentation.py 12544 01 A
 
 @author: Tong
 """
@@ -34,6 +34,26 @@ FS = 48000  # Sample rate
 N_CHANNELS = 2  # Stereo output
 STIM_DB = 65  # Stimulus volume in dB
 PAUSE_DUR = 1.0  # Pause duration between story and questions
+
+# %% Story presentation orders (Latin square, rows 0/2/4/6 of 8x8 cyclic square)
+# Indices into the story list from story_questions_mapping_pool.csv (sorted by story_id):
+#   0: 12008_1_1_sad       (sad)
+#   1: 12008_1_2_happy     (happy)
+#   2: 12008_1_2_sad       (sad)
+#   3: 12014_1_2_happy     (happy)
+#   4: 12015_1_2_sad       (sad)
+#   5: 12016_1_1_happy     (happy)
+#   6: 12016_1_2_happy     (happy)
+#   7: 9227_3_1_spontaneous (spontaneous)
+#
+# Each story appears in each position at most once across the 4 orders.
+# Max 1 consecutive same-emotion pair per order (unavoidable given 4 happy stories).
+STORY_ORDERS = {
+    'A': [0, 1, 2, 3, 4, 5, 6, 7],
+    'B': [2, 3, 4, 5, 6, 7, 0, 1],
+    'C': [4, 5, 6, 7, 0, 1, 2, 3],
+    'D': [6, 7, 0, 1, 2, 3, 4, 5],
+}
 
 # %% Experiment instructions
 INSTRUCTION_TEXT_1 = """Great job with the clicks! Now we are going to listen to some stories.\n\n
@@ -113,10 +133,13 @@ def main():
                         help='Participant ID (e.g., 12544)')
     parser.add_argument('session', type=str,
                         help='Session number (e.g., 01)')
+    parser.add_argument('order', type=str, choices=['A', 'B', 'C', 'D'],
+                        help='Story presentation order (A, B, C, or D)')
     args = parser.parse_args()
 
     pid = args.participant_id
     session = args.session
+    order = args.order
 
     # %% Load story and question data
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -130,14 +153,20 @@ def main():
     # Load the CSV — all participants get the same stimulus pool
     df = pd.read_csv(csv_path)
 
-    print(f"Participant: {pid}, Session: {session}")
+    print(f"Participant: {pid}, Session: {session}, Order: {order}")
 
-    # Get unique stories
+    # Get unique stories and apply presentation order
     stories_df = df.groupby('story_id').first().reset_index()
-    print(f"Found {len(stories_df)} stories to present")
+    stories_df = stories_df.sort_values('story_id').reset_index(drop=True)
 
-    # Display available stories
-    print("\nAvailable stories:")
+    # Reorder stories according to the Latin square
+    order_indices = STORY_ORDERS[order]
+    stories_df = stories_df.iloc[order_indices].reset_index(drop=True)
+
+    print(f"Found {len(stories_df)} stories (order {order})")
+
+    # Display story order
+    print(f"\nStory presentation order ({order}):")
     for idx, story_row in stories_df.iterrows():
         print(f"  {idx + 1}. {story_row['story_id']} - {story_row['emotion']}")
 

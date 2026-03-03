@@ -198,10 +198,13 @@ Uses `stim_normalized/` directory (relative to project root) for both click file
 
 ### Usage
 ```bash
-python prt_story_presentation.py <participant_id> <session>
+python prt_story_presentation.py <participant_id> <session> <order>
 ```
 - `participant_id`: Participant ID (e.g., 12544)
 - `session`: Session number (e.g., 01)
+- `order`: Story presentation order (A, B, C, or D)
+
+All arguments are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
 
 ### Stimulus Pool
 All participants receive the same 8 stories (~29.5 min total). No pre/post session split.
@@ -218,15 +221,27 @@ Story pool is defined in `code/stimuli_preprocessing/story_questions_mapping_poo
 
 Each story has 5 comprehension questions (3 multiple-choice + 2 free response).
 
-Both arguments are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
+### Presentation Orders (Latin Square)
+Stories are pseudo-randomized using 4 rows from an 8x8 cyclic Latin square (rows 0, 2, 4, 6 — evenly spaced). Each story appears in each position at most once across the 4 orders. Orders are emotion-aware (max 1 consecutive same-emotion pair per order).
+
+```
+STORY_ORDERS = {
+    'A': [0, 1, 2, 3, 4, 5, 6, 7],  # sad hap sad hap sad hap hap spo
+    'B': [2, 3, 4, 5, 6, 7, 0, 1],  # sad hap sad hap hap spo sad hap
+    'C': [4, 5, 6, 7, 0, 1, 2, 3],  # sad hap hap spo sad hap sad hap
+    'D': [6, 7, 0, 1, 2, 3, 4, 5],  # hap spo sad hap sad hap sad hap
+}
+```
+
+Indices refer to the sorted story list from the CSV. Assign orders in rotation: P1->A, P2->B, P3->C, P4->D, P5->A, etc.
 
 ### Workflow
 1. Instructions (2 screens)
-2. For each story: play audio with fixation cross → 5 questions with audio + visual display
+2. For each story (in the specified order): play audio with fixation cross -> 5 questions with audio + visual display
 3. End prompt
 
 ### Script Structure
-- Constants (`FS`, `N_CHANNELS`, `STIM_DB`, `PAUSE_DUR`) and helper functions at module level
+- Constants (`FS`, `N_CHANNELS`, `STIM_DB`, `PAUSE_DUR`) and `STORY_ORDERS` dict at module level
 - All experiment logic wrapped in `main()` with `if __name__ == "__main__"` entry point
 - `n_bits_story = ceil(log2(8))` for 8-story trigger encoding
 - Allows starting from any story number (interactive prompt before experiment window opens)
@@ -234,3 +249,4 @@ Both arguments are passed to `ExperimentController(participant=pid, session=sess
 ### Key Design Decisions
 - The old `story_questions_mapping_fin.csv` had `assigned_session` column (0=pre, 1=post). The new `story_questions_mapping_pool.csv` removes this — everyone gets the same pool.
 - Stories were selected as: all `AssignedSession=0` from `partitioned_story.csv` + `12008_1_1_sad` + `12008_1_2_happy`.
+- Latin square rows 0/2/4/6 chosen for even spacing; all have max 1 consecutive same-emotion pair (best achievable given 4 happy + 3 sad + 1 spontaneous).
