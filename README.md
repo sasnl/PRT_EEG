@@ -9,7 +9,8 @@ PRT_EEG/
 ├── code/
 │   ├── stimuli_preprocessing/         # Audio analysis and preprocessing tools
 │   ├── experiment/                    # Experiment presentation scripts
-│   │   └── prt_click_presentation.py  # Click train presentation & sound check
+│   │   ├── prt_click_presentation.py  # Click train presentation & sound check
+│   │   └── prt_story_presentation.py  # Story presentation & comprehension questions
 │   ├── click_QC/                      # Click ABR quality control
 │   │   └── click_qc.py               # CLI tool for ABR signal QC (run after recording)
 │   └── analysis/                      # Analysis scripts
@@ -198,7 +199,7 @@ Each story is followed by 5 comprehension questions (3 multiple-choice + 2 free 
 
 ### What it does
 
-1. **Instructions** — 3 instruction screens explaining the task
+1. **Instructions** — 2 instruction screens explaining the task
 2. **For each story:**
    - Displays "Story X of 8", press Space to begin
    - Plays story audio with fixation cross on screen

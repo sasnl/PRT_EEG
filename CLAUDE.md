@@ -13,7 +13,8 @@ PRT_EEG/
 ├── code/
 │   ├── stimuli_preprocessing/    # Audio analysis and preprocessing tools
 │   ├── experiment/               # Experiment presentation scripts
-│   │   └── prt_click_presentation.py  # Click train presentation & sound check
+│   │   ├── prt_click_presentation.py  # Click train presentation & sound check
+│   │   └── prt_story_presentation.py  # Story presentation & comprehension questions
 │   ├── click_QC/                 # Click ABR quality control
 │   │   └── click_qc.py          # CLI tool for ABR signal QC
 │   └── analysis/                 # Analysis scripts
@@ -217,10 +218,18 @@ Story pool is defined in `code/stimuli_preprocessing/story_questions_mapping_poo
 
 Each story has 5 comprehension questions (3 multiple-choice + 2 free response).
 
+Both arguments are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
+
 ### Workflow
-1. Instructions (3 screens)
+1. Instructions (2 screens)
 2. For each story: play audio with fixation cross → 5 questions with audio + visual display
 3. End prompt
+
+### Script Structure
+- Constants (`FS`, `N_CHANNELS`, `STIM_DB`, `PAUSE_DUR`) and helper functions at module level
+- All experiment logic wrapped in `main()` with `if __name__ == "__main__"` entry point
+- `n_bits_story = ceil(log2(8))` for 8-story trigger encoding
+- Allows starting from any story number (interactive prompt before experiment window opens)
 
 ### Key Design Decisions
 - The old `story_questions_mapping_fin.csv` had `assigned_session` column (0=pre, 1=post). The new `story_questions_mapping_pool.csv` removes this — everyone gets the same pool.
