@@ -155,6 +155,61 @@ Both files are saved alongside the input `.vhdr` file:
 - **Wave V should be clearly visible** around 5–9 ms
 - **All scalp channels should be OK** — if channels are flagged as FLAT or NOISY, check electrode connections before proceeding
 
+### Example output
+
+**Figure** (`_abr_qc.png`):
+
+![Example ABR QC Figure](docs/images/example_abr_qc.png)
+
+**Text report** (`_abr_qc.txt`):
+
+```
+============================================================
+         CLICK ABR QUALITY CONTROL REPORT
+============================================================
+Date:           2026-03-03 12:40:05
+EEG File:       12544_2_1_click_only.vhdr
+Sampling Rate:  25000.0 Hz
+Epochs Used:    5
+
+------------------------------------------------------------
+  SNR Analysis
+------------------------------------------------------------
+  sigma^2_S+N (signal+noise var):  3.521692e-14
+  sigma^2_N   (noise var):         1.539341e-15
+  SNR:                             13.40 dB
+
+------------------------------------------------------------
+  ABR Peak Detection
+------------------------------------------------------------
+  Wave   I:  3.64 ms  |  -0.0000 uV
+  Wave III:  5.48 ms  |  -0.0000 uV
+  Wave   V:  7.60 ms  |  0.0000 uV
+
+------------------------------------------------------------
+  Quality Summary
+------------------------------------------------------------
+  GOOD - SNR above 6 dB
+  Wave V detected at 7.60 ms
+
+------------------------------------------------------------
+  Scalp EEG Channel QC
+------------------------------------------------------------
+  Total channels:  31
+  OK:              31
+  Flat:            0
+  Noisy:           0
+
+  Channel       Std Dev (uV)  Status
+  ------------  ----------  ------
+  Fp1                25.49  OK
+  Fz                 11.56  OK
+  F3                 19.85  OK
+  ...
+  Fp2                25.35  OK
+============================================================
+```
+
 ---
 
 ## Story Presentation
