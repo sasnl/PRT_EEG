@@ -8,10 +8,10 @@ to comprehension questions. Stories are played with audio, followed by question 
 and visual response options.
 
 Usage:
-    python prt_story_presentation.py <participant_id> <session> <order>
+    python prt_story_presentation.py
 
-Example:
-    python prt_story_presentation.py 12544 01 A
+The script will interactively prompt for participant ID, session number,
+and story presentation order (A/B/C/D).
 
 @author: Tong
 """
@@ -22,7 +22,6 @@ os.environ['SD_ENABLE_ASIO'] = '1'
 import sounddevice as sd
 
 # %% Import libraries
-import argparse
 import numpy as np
 import pandas as pd
 from expyfun import ExperimentController, decimals_to_binary
@@ -127,19 +126,21 @@ def background_load_buffer(ec, audio_data, trial_id, callback=None):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='PRT Story Presentation Experiment')
-    parser.add_argument('participant_id', type=str,
-                        help='Participant ID (e.g., 12544)')
-    parser.add_argument('session', type=str,
-                        help='Session number (e.g., 01)')
-    parser.add_argument('order', type=str, choices=['A', 'B', 'C', 'D'],
-                        help='Story presentation order (A, B, C, or D)')
-    args = parser.parse_args()
+    print("=" * 40)
+    print("  PRT Story Presentation Experiment")
+    print("=" * 40)
 
-    pid = args.participant_id
-    session = args.session
-    order = args.order
+    pid = input("\nEnter participant ID (e.g., 12544): ").strip()
+    while not pid:
+        pid = input("Participant ID cannot be empty. Try again: ").strip()
+
+    session = input("Enter session number (e.g., 01): ").strip()
+    while not session:
+        session = input("Session number cannot be empty. Try again: ").strip()
+
+    order = input("Enter story order (A, B, C, or D): ").strip().upper()
+    while order not in ('A', 'B', 'C', 'D'):
+        order = input("Invalid order. Enter A, B, C, or D: ").strip().upper()
 
     # %% Load story and question data
     script_dir = os.path.dirname(os.path.abspath(__file__))

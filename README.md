@@ -38,9 +38,9 @@ pip install numpy scipy matplotlib mne expyfun librosa pandas sounddevice pybv
 
 The experiment session follows this order:
 
-1. **Click presentation** — run `prt_click_presentation.py <pid> <session>` (sound check + 5 minutes of click trains)
+1. **Click presentation** — run `prt_click_presentation.py` (sound check + 5 minutes of click trains)
 2. **Click QC** — run `click_qc.py` on the recorded data to verify ABR signal quality
-3. **Story experiment** — run `prt_story_presentation.py <pid> <session> <order>` (~30 min of stories + questions)
+3. **Story experiment** — run `prt_story_presentation.py` (~30 min of stories + questions)
 
 ---
 
@@ -61,19 +61,19 @@ Presents click trains for ABR recording. Run this BEFORE the main story experime
 Run from the EEG computer with the experiment environment activated:
 
 ```bash
-python code/experiment/prt_click_presentation.py <participant_id> <session>
+python code/experiment/prt_click_presentation.py
 ```
 
-**Example:**
+The script will prompt you interactively:
 
-```bash
-python code/experiment/prt_click_presentation.py 12544 01
 ```
+========================================
+  PRT Click Presentation & Sound Check
+========================================
 
-| Argument | Description | Example |
-|----------|-------------|---------|
-| `participant_id` | Participant ID number | `12544` |
-| `session` | Session number | `01` |
+Enter participant ID (e.g., 12544): 12544
+Enter session number (e.g., 01): 01
+```
 
 ### Important notes
 
@@ -221,20 +221,20 @@ Presents 8 emotional prosody stories (~30 min total) with comprehension question
 ### How to run
 
 ```bash
-python code/experiment/prt_story_presentation.py <participant_id> <session> <order>
+python code/experiment/prt_story_presentation.py
 ```
 
-**Example:**
+The script will prompt you interactively:
 
-```bash
-python code/experiment/prt_story_presentation.py 12544 01 A
 ```
+========================================
+  PRT Story Presentation Experiment
+========================================
 
-| Argument | Description | Example |
-|----------|-------------|---------|
-| `participant_id` | Participant ID number | `12544` |
-| `session` | Session number | `01` |
-| `order` | Story presentation order | `A`, `B`, `C`, or `D` |
+Enter participant ID (e.g., 12544): 12544
+Enter session number (e.g., 01): 01
+Enter story order (A, B, C, or D): A
+```
 
 ### Stimulus pool
 

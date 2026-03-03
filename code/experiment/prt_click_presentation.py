@@ -11,10 +11,9 @@ This script presents 5 click trains for:
 It is designed to be run BEFORE the main story experiment.
 
 Usage:
-    python prt_click_presentation.py <participant_id> <session>
+    python prt_click_presentation.py
 
-Example:
-    python prt_click_presentation.py 12544 01
+The script will interactively prompt for participant ID and session number.
 
 @author: Tong
 """
@@ -25,7 +24,6 @@ os.environ['SD_ENABLE_ASIO'] = '1'
 import sounddevice as sd
 
 # %% Import libraries
-import argparse
 import numpy as np
 from expyfun import ExperimentController
 from expyfun.io import read_wav
@@ -57,16 +55,17 @@ Now we are ready for the stories.
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='PRT Click Presentation & Sound Check')
-    parser.add_argument('participant_id', type=str,
-                        help='Participant ID (e.g., 12544)')
-    parser.add_argument('session', type=str,
-                        help='Session number (e.g., 01)')
-    args = parser.parse_args()
+    print("=" * 40)
+    print("  PRT Click Presentation & Sound Check")
+    print("=" * 40)
 
-    pid = args.participant_id
-    session = args.session
+    pid = input("\nEnter participant ID (e.g., 12544): ").strip()
+    while not pid:
+        pid = input("Participant ID cannot be empty. Try again: ").strip()
+
+    session = input("Enter session number (e.g., 01): ").strip()
+    while not session:
+        session = input("Session number cannot be empty. Try again: ").strip()
 
     # %% Set up paths
     script_dir = os.path.dirname(os.path.abspath(__file__))

@@ -176,12 +176,9 @@ The QC script keeps the FIRST trigger in each pair (minimum 1s gap between valid
 
 ### Usage
 ```bash
-python prt_click_presentation.py <participant_id> <session>
+python prt_click_presentation.py
 ```
-- `participant_id`: Participant ID (e.g., 12544)
-- `session`: Session number (e.g., 01)
-
-Both arguments are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
+Interactive prompts for participant ID and session number. Both are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
 
 ### Workflow
 1. Sound check: plays 10s of a story segment for volume verification
@@ -198,13 +195,9 @@ Uses `stim_normalized/` directory (relative to project root) for both click file
 
 ### Usage
 ```bash
-python prt_story_presentation.py <participant_id> <session> <order>
+python prt_story_presentation.py
 ```
-- `participant_id`: Participant ID (e.g., 12544)
-- `session`: Session number (e.g., 01)
-- `order`: Story presentation order (A, B, C, or D)
-
-All arguments are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
+Interactive prompts for participant ID, session number, and story order (A/B/C/D). PID and session are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
 
 ### Stimulus Pool
 All participants receive the same 8 stories (~29.5 min total). No pre/post session split.
