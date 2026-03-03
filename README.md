@@ -238,7 +238,7 @@ Enter story order (A, B, C, or D): A
 
 ### Stimulus pool
 
-All participants receive the same 8 stories (~29.5 min total audio), but in different orders depending on the `order` argument:
+All participants receive the same 8 stories (~29.5 min total audio), but in different orders depending on the order selected at the prompt:
 
 | Story | Emotion | Duration |
 |-------|---------|----------|
