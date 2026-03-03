@@ -7,6 +7,12 @@ This script presents emotional prosody stories to participants and collects resp
 to comprehension questions. Stories are played with audio, followed by question audio
 and visual response options.
 
+Usage:
+    python prt_story_presentation.py <participant_id> <session>
+
+Example:
+    python prt_story_presentation.py 12544 01
+
 @author: Tong
 """
 
@@ -14,11 +20,9 @@ and visual response options.
 import os
 os.environ['SD_ENABLE_ASIO'] = '1'
 import sounddevice as sd
-sd.query_hostapis()
-sd.query_devices()
 
 # %% Import libraries
-import os
+import argparse
 import numpy as np
 import pandas as pd
 from expyfun import ExperimentController, decimals_to_binary
@@ -32,34 +36,31 @@ stim_db = 65  # Stimulus volume in dB
 
 pause_dur = 1.0  # Pause duration between story and questions
 
+# %% Parse CLI arguments
+parser = argparse.ArgumentParser(
+    description='PRT Story Presentation Experiment')
+parser.add_argument('participant_id', type=str,
+                    help='Participant ID (e.g., 12544)')
+parser.add_argument('session', type=str,
+                    help='Session number (e.g., 01)')
+cli_args = parser.parse_args()
+
+pid = cli_args.participant_id
+session = cli_args.session
+
 # %% Load story and question data
-# Set up paths - normalize to forward slashes for cross-platform compatibility
-# Set up paths - normalize to forward slashes for cross-platform compatibility
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.join(script_dir, '..', '..')
 stim_path = os.path.join(project_root, 'stim_normalized')
-csv_path = os.path.join(project_root, 'code', 'stimuli_preprocessing', 'story_questions_mapping_new.csv')
+csv_path = os.path.join(project_root, 'code', 'stimuli_preprocessing', 'story_questions_mapping_pool.csv')
 
 if not os.path.exists(csv_path):
     raise FileNotFoundError(f"CSV file not found: {csv_path}")
 
-# Load the CSV
+# Load the CSV — all participants get the same stimulus pool
 df = pd.read_csv(csv_path)
 
-# Filter by assigned session
-while True:
-    session_input = input("\nEnter assigned session (0 for pre, 1 for post): ").strip()
-    if session_input in ['0', '1']:
-        assigned_session = int(session_input)
-        break
-    else:
-        print("Please enter '0' or '1'.")
-
-print(f"Filtering for assigned session: {assigned_session}")
-df = df[df['assigned_session'] == assigned_session]
-
-if df.empty:
-    raise ValueError(f"No stories found for assigned session {assigned_session}")
+print(f"Participant: {pid}, Session: {session}")
 
 # Get unique stories
 stories_df = df.groupby('story_id').first().reset_index()
@@ -223,8 +224,9 @@ Let's begin with the first story!\n
 # %% Experiment setup
 ec_args = dict(
     exp_name='PRT_Stories',
+    participant=pid,
+    session=session,
     window_size=[2560, 1440],
-    session='00',
     full_screen=True,
     n_channels=n_channel,
     version='dev',
