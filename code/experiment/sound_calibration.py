@@ -42,11 +42,6 @@ def main():
     print(f"\nFile: {os.path.basename(wav_path)}")
     print(f"stim_db: {STIM_DB}")
 
-    audio, audio_fs = read_wav(wav_path)
-    duration = audio.shape[1] / audio_fs
-    print(f"Audio shape: {audio.shape}, sample rate: {audio_fs}")
-    print(f"Duration: {duration:.1f}s (will loop)")
-
     ec_args = dict(
         exp_name='SoundCalibration',
         participant='calibration',
@@ -61,23 +56,33 @@ def main():
     )
 
     with ExperimentController(**ec_args) as ec:
-        ec.screen_prompt(
+        # Load audio inside EC context
+        audio, audio_fs = read_wav(wav_path)
+        duration = audio.shape[1] / audio_fs
+        print(f"Audio shape: {audio.shape}, sample rate: {audio_fs}")
+        print(f"Duration: {duration:.1f}s (will loop)")
+
+        # Wait for Space to start
+        ec.screen_text(
             "Sound Calibration\n\n"
             "A speech recording will play on loop.\n\n"
             "Adjust volume to desired level.\n\n"
             "Press Space to start.",
-            live_keys=['space'])
+            pos=[0, 0], units='norm', color='w', font_size=24, wrap=True)
+        ec.flip()
+        ec.wait_one_press(max_wait=np.inf, live_keys=['space'])
 
+        # Wait for key release and flush lingering presses
+        ec.wait_secs(0.5)
+        ec.listen_presses()
+        ec.get_presses(live_keys=['space'], timestamp=False)
+
+        # Show playing screen
         ec.screen_text(
             "Sound playing...\n\n"
             "Press Space to stop.",
             pos=[0, 0], units='norm', color='w', font_size=24, wrap=True)
         ec.flip()
-
-        # Flush any lingering key presses from the prompt
-        ec.get_presses(live_keys=['space'], timestamp=False)
-        ec.wait_secs(0.3)
-        ec.get_presses(live_keys=['space'], timestamp=False)
 
         playing = True
         loop_num = 0
@@ -85,7 +90,8 @@ def main():
             ec.load_buffer(audio)
             ec.identify_trial(ec_id=f'calibration_{loop_num}', ttl_id=[])
             t0 = ec.start_stimulus()
-            print(f"Loop {loop_num}: t0={t0:.2f}, duration={duration:.2f}")
+            print(f"Loop {loop_num}: started at t={t0:.2f}")
+
             while ec.current_time < t0 + duration:
                 ec.check_force_quit()
                 pressed = ec.get_presses(live_keys=['space'],
