@@ -69,8 +69,10 @@ def main():
         ec.flip()
 
         playing = True
+        loop_num = 0
         while playing:
             ec.load_buffer(audio)
+            ec.identify_trial(ec_id=f'calibration_{loop_num}', ttl_id=[])
             ec.start_stimulus()
 
             t0 = ec.current_time
@@ -84,6 +86,8 @@ def main():
                 ec.wait_secs(0.05)
 
             ec.stop()
+            ec.trial_ok()
+            loop_num += 1
 
         ec.screen_text(
             "Calibration complete.",
