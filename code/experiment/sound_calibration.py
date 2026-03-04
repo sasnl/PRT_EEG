@@ -73,6 +73,11 @@ def main():
             pos=[0, 0], units='norm', color='w', font_size=24, wrap=True)
         ec.flip()
 
+        # Flush any lingering key presses from the prompt
+        ec.get_presses(live_keys=['space'], timestamp=False)
+        ec.wait_secs(0.3)
+        ec.get_presses(live_keys=['space'], timestamp=False)
+
         playing = True
         loop_num = 0
         while playing:
