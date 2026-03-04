@@ -10,8 +10,9 @@ and visual response options.
 Usage:
     python prt_story_presentation.py
 
-The script will interactively prompt for participant ID, session number,
-and story presentation order (A/B/C/D).
+The script will interactively prompt for participant ID (5-digit),
+visit number (1-digit), session number (1-digit), and story presentation
+order (A/B/C/D).
 
 @author: Tong
 """
@@ -132,13 +133,17 @@ def main():
     print("  PRT Story Presentation Experiment")
     print("=" * 40)
 
-    pid = input("\nEnter participant ID (e.g., 12544): ").strip()
-    while not pid:
-        pid = input("Participant ID cannot be empty. Try again: ").strip()
+    pid = input("\nEnter participant ID (5 digits, e.g., 12544): ").strip()
+    while not (pid.isdigit() and len(pid) == 5):
+        pid = input("Invalid. Enter a 5-digit participant ID: ").strip()
 
-    session = input("Enter session number (e.g., 01): ").strip()
-    while not session:
-        session = input("Session number cannot be empty. Try again: ").strip()
+    visit = input("Enter visit number (1 digit, e.g., 1): ").strip()
+    while not (visit.isdigit() and len(visit) == 1):
+        visit = input("Invalid. Enter a 1-digit visit number: ").strip()
+
+    session = input("Enter session number (1 digit, e.g., 1): ").strip()
+    while not (session.isdigit() and len(session) == 1):
+        session = input("Invalid. Enter a 1-digit session number: ").strip()
 
     order = input("Enter story order (A, B, C, or D): ").strip().upper()
     while order not in ('A', 'B', 'C', 'D'):
@@ -156,7 +161,7 @@ def main():
     # Load the CSV — all participants get the same stimulus pool
     df = pd.read_csv(csv_path)
 
-    print(f"Participant: {pid}, Session: {session}, Order: {order}")
+    print(f"Participant: {pid}, Visit: {visit}, Session: {session}, Order: {order}")
 
     # Get unique stories and apply presentation order
     stories_df = df.groupby('story_id').first().reset_index()
@@ -248,7 +253,7 @@ def main():
     ec_args = dict(
         exp_name='PRT_Stories',
         participant=pid,
-        session=session,
+        session=f"{visit}{session}",
         window_size=[2560, 1440],
         full_screen=True,
         n_channels=N_CHANNELS,
