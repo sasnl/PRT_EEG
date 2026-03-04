@@ -60,10 +60,15 @@ def main():
     )
 
     with ExperimentController(**ec_args) as ec:
-        ec.screen_text(
+        ec.screen_prompt(
             "Sound Calibration\n\n"
-            "Speech is playing on loop.\n\n"
+            "A speech recording will play on loop.\n\n"
             "Adjust volume to desired level.\n\n"
+            "Press Space to start.",
+            live_keys=['space'])
+
+        ec.screen_text(
+            "Sound playing...\n\n"
             "Press Space to stop.",
             pos=[0, 0], units='norm', color='w', font_size=24, wrap=True)
         ec.flip()
