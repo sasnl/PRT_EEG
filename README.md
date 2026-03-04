@@ -50,7 +50,7 @@ Double-click **`run_experiment.bat`** in the project folder. It activates the co
 Select option (1-3):
 ```
 
-Each script will prompt you for participant ID, session number, and (for stories) presentation order.
+Each script will prompt you for participant ID (5-digit), and (for stories) visit number (1-digit), session number (1-digit), and presentation order (A/B/C/D).
 
 **First-time setup:** Install dependencies in the `ABR` conda environment via Anaconda Prompt:
 ```
@@ -84,7 +84,7 @@ Presents click trains for ABR recording. Run this BEFORE the main story experime
 
 ### How to run
 
-Run from the EEG computer with the experiment environment activated:
+On the EEG computer, use the launcher (see [Running the Experiment](#running-the-experiment-windows-eeg-computer)) and select option 1. Or run directly:
 
 ```bash
 python code/experiment/prt_click_presentation.py
@@ -97,7 +97,7 @@ The script will prompt you interactively:
   PRT Click Presentation & Sound Check
 ========================================
 
-Enter participant ID (e.g., 12544): 12544
+Enter participant ID (5 digits, e.g., 12544): 12544
 Enter session number (e.g., 01): 01
 ```
 
@@ -118,6 +118,20 @@ Enter session number (e.g., 01): 01
 Run this immediately after the click recording session to check ABR signal quality before continuing with the story experiment.
 
 ### How to run
+
+**Option 1 — Double-click the batch file** (Windows):
+
+Double-click **`code/click_QC/run_click_qc.bat`**. It activates the `ABR` conda environment and prompts for the `.vhdr` file path:
+
+```
+========================================
+  Click ABR Quality Control
+========================================
+
+Enter path to .vhdr file: data\subject01\subject01_clicks.vhdr
+```
+
+**Option 2 — Run directly from the command line:**
 
 ```bash
 python code/click_QC/click_qc.py <path_to_vhdr_file>
@@ -246,6 +260,8 @@ Presents 8 emotional prosody stories (~30 min total) with comprehension question
 
 ### How to run
 
+On the EEG computer, use the launcher (see [Running the Experiment](#running-the-experiment-windows-eeg-computer)) and select option 2. Or run directly:
+
 ```bash
 python code/experiment/prt_story_presentation.py
 ```
@@ -257,8 +273,9 @@ The script will prompt you interactively:
   PRT Story Presentation Experiment
 ========================================
 
-Enter participant ID (e.g., 12544): 12544
-Enter session number (e.g., 01): 01
+Enter participant ID (5 digits, e.g., 12544): 12544
+Enter visit number (1 digit, e.g., 1): 1
+Enter session number (1 digit, e.g., 1): 1
 Enter story order (A, B, C, or D): A
 ```
 
