@@ -22,7 +22,7 @@ from numpy.fft import fft, ifft
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from expyfun.io import read_wav
+from scipy.io import wavfile
 import mne
 import glob
 from datetime import datetime
@@ -522,14 +522,23 @@ def main():
                 print(f"Error: Could not find click file for epoch {ei}")
                 continue
 
-        stim, fs_stim = read_wav(fname)
-        stim_abs = np.abs(stim)
+        fs_stim, stim_raw = wavfile.read(fname)
+        # Convert to float and normalize to [-1, 1]
+        if stim_raw.dtype == np.int16:
+            stim = stim_raw.astype(float) / 32768.0
+        elif stim_raw.dtype == np.int32:
+            stim = stim_raw.astype(float) / 2147483648.0
+        elif stim_raw.dtype == np.float32 or stim_raw.dtype == np.float64:
+            stim = stim_raw.astype(float)
+        else:
+            stim = stim_raw.astype(float)
 
-        # Read click event
-        # Note: stim_abs might be stereo (2, N) or mono (1, N) or (N,).
-        # read_wav returns (data, fs). data is (n_channels, n_samples).
-        if stim_abs.ndim > 1:
-            stim_abs = stim_abs[0] # Take first channel if stereo
+        # scipy.io.wavfile returns (n_samples,) for mono or (n_samples, n_channels) for stereo
+        # Take first channel if stereo
+        if stim.ndim > 1:
+            stim = stim[:, 0]
+
+        stim_abs = np.abs(stim)
 
         click_times = [(np.where(np.diff(s) > 0)[0] + 1) / float(fs_stim) for s in [stim_abs]]
         # Flatten list of lists

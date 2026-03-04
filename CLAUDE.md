@@ -166,8 +166,8 @@ The QC script keeps the FIRST trigger in each pair (minimum 1s gap between valid
 - Data scaling: divide by 100 for microvolts
 
 ### Dependencies
-- numpy, scipy, matplotlib, mne, expyfun (available on EEG computer)
-- pybv (for BrainVision export, used in testing)
+- numpy, scipy, matplotlib, mne
+- No expyfun dependency — uses `scipy.io.wavfile` for loading click WAV files
 
 ## Click Presentation Script
 
