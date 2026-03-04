@@ -142,7 +142,7 @@ def main():
         ec.trial_ok()
 
         ec.screen_prompt(
-            "Did you hear the story clearly? (Press Space)",
+            "Did you hear the story clearly?",
             live_keys=['space'])
 
         # --- Click Trains ---
@@ -155,17 +155,14 @@ def main():
 
         print(f"Loaded {len(loaded_clicks)} click trains.")
 
-        for i, click_data in enumerate(loaded_clicks):
-            ec.screen_prompt(
-                f"click: {i+1} min out of {len(loaded_clicks)} min",
-                live_keys=['space'])
-            ec.load_buffer(click_data)
+        # Show fixation cross for the entire click session
+        ec.screen_text("+", pos=(0.75, 0), units='norm',
+                        color='white', font_size=64)
+        ec.flip()
+        ec.wait_secs(1.0)
 
-            # Show fixation cross for 1 second before click train starts
-            ec.screen_text("+", pos=(0.75, 0), units='norm',
-                            color='white', font_size=64)
-            ec.flip()
-            ec.wait_secs(1.0)
+        for i, click_data in enumerate(loaded_clicks):
+            ec.load_buffer(click_data)
 
             ec.identify_trial(ec_id=f"click_{i}", ttl_id=[])
 
@@ -188,8 +185,9 @@ def main():
             ec.stop()
             ec.trial_ok()
 
-            # Pause between clicks
-            ec.wait_secs(1.0)
+            # 1s pause between click trains (skip after last one)
+            if i < len(loaded_clicks) - 1:
+                ec.wait_secs(1.0)
 
         # --- End ---
         ec.screen_prompt(INSTRUCTION_END, live_keys=['space'])
