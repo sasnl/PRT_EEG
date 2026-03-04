@@ -101,8 +101,13 @@ The script will prompt you interactively:
 ========================================
 
 Enter participant ID (5 digits, e.g., 12544): 12544
-Enter session number (e.g., 01): 01
+Enter visit number (1 digit, e.g., 1): 1
+Enter session number (1 digit, e.g., 1): 1
 ```
+
+### Output files
+
+Data log and tab files are saved as `click_{PID}_{visit}_{session}_{date}.tab` and `.log`.
 
 ### Important notes
 
@@ -281,6 +286,10 @@ Enter visit number (1 digit, e.g., 1): 1
 Enter session number (1 digit, e.g., 1): 1
 Enter story order (A, B, C, or D): A
 ```
+
+### Output files
+
+Data log and tab files are saved as `story_{PID}_{visit}_{session}_{date}.tab` and `.log`.
 
 ### Stimulus pool
 
