@@ -34,13 +34,40 @@ pip install numpy scipy matplotlib mne expyfun librosa pandas sounddevice pybv
 
 **Note:** `expyfun` and `sounddevice` are only needed on the EEG computer. `librosa` and `pandas` are only needed for audio preprocessing.
 
+## Running the Experiment (Windows EEG Computer)
+
+Double-click **`run_experiment.bat`** in the project folder. It activates the conda environment and shows a menu:
+
+```
+========================================
+  PRT EEG Experiment
+========================================
+
+  1. Click Presentation (run first)
+  2. Story Presentation
+  3. Exit
+
+Select option (1-3):
+```
+
+Each script will prompt you for participant ID, session number, and (for stories) presentation order.
+
+**First-time setup:** Create the conda environment in Anaconda Prompt:
+```
+conda create -n prt python=3.10
+conda activate prt
+pip install numpy scipy matplotlib mne expyfun sounddevice pandas
+```
+
+**Note:** If the batch file can't find Anaconda, open the file in a text editor and update the path to match your Anaconda install location. Run `where conda` in Anaconda Prompt to find it.
+
 ## Experiment Workflow
 
 The experiment session follows this order:
 
-1. **Click presentation** — run `prt_click_presentation.py` (sound check + 5 minutes of click trains)
-2. **Click QC** — run `click_qc.py` on the recorded data to verify ABR signal quality
-3. **Story experiment** — run `prt_story_presentation.py` (~30 min of stories + questions)
+1. **Click presentation** — select option 1 from the launcher (sound check + 5 minutes of click trains)
+2. **Click QC** — run `click_qc.py` on a separate analysis computer to verify ABR signal quality
+3. **Story experiment** — select option 2 from the launcher (~30 min of stories + questions)
 
 ---
 
