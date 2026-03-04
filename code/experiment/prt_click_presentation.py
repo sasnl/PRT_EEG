@@ -59,13 +59,17 @@ def main():
     print("  PRT Click Presentation & Sound Check")
     print("=" * 40)
 
-    pid = input("\nEnter participant ID (e.g., 12544): ").strip()
-    while not pid:
-        pid = input("Participant ID cannot be empty. Try again: ").strip()
+    pid = input("\nEnter participant ID (5 digits, e.g., 12544): ").strip()
+    while not (pid.isdigit() and len(pid) == 5):
+        pid = input("Invalid. Enter a 5-digit participant ID: ").strip()
 
-    session = input("Enter session number (e.g., 01): ").strip()
-    while not session:
-        session = input("Session number cannot be empty. Try again: ").strip()
+    visit = input("Enter visit number (1 digit, e.g., 1): ").strip()
+    while not (visit.isdigit() and len(visit) == 1):
+        visit = input("Invalid. Enter a 1-digit visit number: ").strip()
+
+    session = input("Enter session number (1 digit, e.g., 1): ").strip()
+    while not (session.isdigit() and len(session) == 1):
+        session = input("Invalid. Enter a 1-digit session number: ").strip()
 
     # %% Set up paths
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -86,14 +90,14 @@ def main():
         print(f"Error: Sound check file not found: {sound_check_file}")
         return
 
-    print(f"Participant: {pid}, Session: {session}")
+    print(f"Participant: {pid}, Visit: {visit}, Session: {session}")
     print(f"Click files: {len(click_files)} found")
 
     # %% Experiment setup
     ec_args = dict(
         exp_name='PRT_Clicks',
-        participant=pid,
-        session=session,
+        participant=f"click_{pid}_{visit}_{session}",
+        session=f"{visit}{session}",
         window_size=[2560, 1440],
         full_screen=True,
         n_channels=N_CHANNELS,

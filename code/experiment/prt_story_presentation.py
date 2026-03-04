@@ -252,7 +252,7 @@ def main():
     # %% Experiment setup
     ec_args = dict(
         exp_name='PRT_Stories',
-        participant=pid,
+        participant=f"story_{pid}_{visit}_{session}",
         session=f"{visit}{session}",
         window_size=[2560, 1440],
         full_screen=True,
