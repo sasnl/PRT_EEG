@@ -84,9 +84,8 @@ def main():
         while playing:
             ec.load_buffer(audio)
             ec.identify_trial(ec_id=f'calibration_{loop_num}', ttl_id=[])
-            ec.start_stimulus()
-
-            t0 = ec.current_time
+            t0 = ec.start_stimulus()
+            print(f"Loop {loop_num}: t0={t0:.2f}, duration={duration:.2f}")
             while ec.current_time < t0 + duration:
                 ec.check_force_quit()
                 pressed = ec.get_presses(live_keys=['space'],
