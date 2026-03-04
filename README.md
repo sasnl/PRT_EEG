@@ -52,10 +52,8 @@ Select option (1-3):
 
 Each script will prompt you for participant ID, session number, and (for stories) presentation order.
 
-**First-time setup:** Create the conda environment in Anaconda Prompt:
+**First-time setup:** Install dependencies in the base conda environment via Anaconda Prompt:
 ```
-conda create -n prt python=3.10
-conda activate prt
 pip install numpy scipy matplotlib mne expyfun sounddevice pandas
 ```
 
