@@ -14,7 +14,8 @@ PRT_EEG/
 │   ├── stimuli_preprocessing/    # Audio analysis and preprocessing tools
 │   ├── experiment/               # Experiment presentation scripts
 │   │   ├── prt_click_presentation.py  # Click train presentation & sound check
-│   │   └── prt_story_presentation.py  # Story presentation & comprehension questions
+│   │   ├── prt_story_presentation.py  # Story presentation & comprehension questions
+│   │   └── sound_calibration.py       # Post-session sound calibration
 │   ├── click_QC/                 # Click ABR quality control
 │   │   └── click_qc.py          # CLI tool for ABR signal QC
 │   └── analysis/                 # Analysis scripts
@@ -197,7 +198,7 @@ Uses `stim_normalized/` directory (relative to project root) for both click file
 ```bash
 python prt_story_presentation.py
 ```
-Interactive prompts for participant ID, session number, and story order (A/B/C/D). PID and session are passed to `ExperimentController(participant=pid, session=session)` for expyfun logging/output naming.
+Interactive prompts for participant ID (5-digit), visit number (1-digit), session number (1-digit), and story order (A/B/C/D). PID is passed to `ExperimentController(participant=pid, session=f"{visit}{session}")` for expyfun logging/output naming.
 
 ### Stimulus Pool
 All participants receive the same 8 stories (~29.5 min total). No pre/post session split.
@@ -243,3 +244,23 @@ Indices refer to the sorted story list from the CSV. Assign orders in rotation: 
 - The old `story_questions_mapping_fin.csv` had `assigned_session` column (0=pre, 1=post). The new `story_questions_mapping_pool.csv` removes this — everyone gets the same pool.
 - Stories were selected as: all `AssignedSession=0` from `partitioned_story.csv` + `12008_1_1_sad` + `12008_1_2_happy`.
 - Latin square rows 0/2/4/6 chosen for even spacing; all have max 1 consecutive same-emotion pair (best achievable given 4 happy + 3 sad + 1 spontaneous).
+
+## Post-Session Sound Calibration Script
+
+### Location
+`code/experiment/sound_calibration.py`
+
+### Usage
+```bash
+python sound_calibration.py
+```
+Run after the story experiment via the launcher (option 3) or directly.
+
+### Purpose
+Plays a speech recording on loop through expyfun at `stim_db=65` for post-session volume calibration. Uses the same audio pipeline and volume level as the experiment scripts.
+
+### Workflow
+1. Loads story WAV file from `stim_normalized/12008_1_1_happy/story/`
+2. Opens expyfun window (windowed, 800x600) with `stim_db=65`
+3. Loops playback until Space is pressed
+4. End key force quits

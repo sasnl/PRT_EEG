@@ -33,15 +33,17 @@ echo ========================================
 echo.
 echo   1. Click Presentation (run first)
 echo   2. Story Presentation
-echo   3. Exit
+echo   3. Post-Session Calibration
+echo   4. Exit
 echo.
-set /p choice="Select option (1-3): "
+set /p choice="Select option (1-4): "
 
 if "%choice%"=="1" goto click
 if "%choice%"=="2" goto story
-if "%choice%"=="3" goto end
+if "%choice%"=="3" goto calibration
+if "%choice%"=="4" goto end
 
-echo Invalid choice. Please enter 1, 2, or 3.
+echo Invalid choice. Please enter 1, 2, 3, or 4.
 goto menu
 
 :click
@@ -56,6 +58,13 @@ echo.
 echo Starting Story Presentation...
 echo.
 python code\experiment\prt_story_presentation.py
+goto menu
+
+:calibration
+echo.
+echo Starting Post-Session Calibration...
+echo.
+python code\experiment\sound_calibration.py
 goto menu
 
 :end

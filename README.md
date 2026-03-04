@@ -10,7 +10,8 @@ PRT_EEG/
 │   ├── stimuli_preprocessing/         # Audio analysis and preprocessing tools
 │   ├── experiment/                    # Experiment presentation scripts
 │   │   ├── prt_click_presentation.py  # Click train presentation & sound check
-│   │   └── prt_story_presentation.py  # Story presentation & comprehension questions
+│   │   ├── prt_story_presentation.py  # Story presentation & comprehension questions
+│   │   └── sound_calibration.py       # Post-session sound calibration
 │   ├── click_QC/                      # Click ABR quality control
 │   │   └── click_qc.py               # CLI tool for ABR signal QC (run after recording)
 │   └── analysis/                      # Analysis scripts
@@ -45,9 +46,10 @@ Double-click **`run_experiment.bat`** in the project folder. It activates the co
 
   1. Click Presentation (run first)
   2. Story Presentation
-  3. Exit
+  3. Post-Session Calibration
+  4. Exit
 
-Select option (1-3):
+Select option (1-4):
 ```
 
 Each script will prompt you for participant ID (5-digit), and (for stories) visit number (1-digit), session number (1-digit), and presentation order (A/B/C/D).
@@ -67,6 +69,7 @@ The experiment session follows this order:
 1. **Click presentation** — select option 1 from the launcher (sound check + 5 minutes of click trains)
 2. **Click QC** — run `click_qc.py` on a separate analysis computer to verify ABR signal quality
 3. **Story experiment** — select option 2 from the launcher (~30 min of stories + questions)
+4. **Post-session calibration** — select option 3 from the launcher (loops a speech recording for volume calibration)
 
 ---
 
@@ -329,6 +332,29 @@ Assign orders to participants in rotation: participant 1 → A, participant 2 �
 - Experimenter controls pacing with **Space** between stories and after each question
 - Press **End** to force quit
 - The script allows starting from any story number (prompted at launch)
+
+---
+
+## Post-Session Calibration
+
+**Script:** `code/experiment/sound_calibration.py`
+
+Plays a speech recording on loop through expyfun at `stim_db=65` for volume calibration. Run this AFTER the story experiment.
+
+### How to run
+
+On the EEG computer, use the launcher (see [Running the Experiment](#running-the-experiment-windows-eeg-computer)) and select option 3. Or run directly:
+
+```bash
+python code/experiment/sound_calibration.py
+```
+
+### What it does
+
+1. Loads a story WAV file (`stim_normalized/12008_1_1_happy/story/12008_1_1_happy_studio.wav`)
+2. Opens an expyfun window with `stim_db=65` (same level used during the experiment)
+3. Plays the speech recording on loop
+4. Press **Space** to stop playback, or **End** to force quit
 
 ---
 
