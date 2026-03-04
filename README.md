@@ -52,8 +52,9 @@ Select option (1-3):
 
 Each script will prompt you for participant ID, session number, and (for stories) presentation order.
 
-**First-time setup:** Install dependencies in the base conda environment via Anaconda Prompt:
+**First-time setup:** Install dependencies in the `ABR` conda environment via Anaconda Prompt:
 ```
+conda activate ABR
 pip install numpy scipy matplotlib mne expyfun sounddevice pandas
 ```
 

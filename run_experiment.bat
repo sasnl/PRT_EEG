@@ -20,7 +20,7 @@ if exist "%USERPROFILE%\anaconda3\Scripts\activate.bat" (
     exit /b 1
 )
 
-call conda activate base
+call conda activate ABR
 
 REM Change to the directory where this batch file lives
 cd /d "%~dp0"
