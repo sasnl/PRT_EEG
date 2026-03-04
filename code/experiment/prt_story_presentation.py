@@ -34,7 +34,7 @@ N_CHANNELS = 2  # Stereo output
 STIM_DB = 65  # Stimulus volume in dB
 PAUSE_DUR = 1.0  # Pause duration between story and questions
 
-# %% Story presentation orders (Latin square, rows 0/2/4/6 of 8x8 cyclic square)
+# %% Story presentation orders (Latin square with speaker/emotion constraints)
 # Indices into the story list from story_questions_mapping_pool.csv (sorted by story_id):
 #   0: 12008_1_1_sad       (sad)
 #   1: 12008_1_2_happy     (happy)
@@ -45,13 +45,15 @@ PAUSE_DUR = 1.0  # Pause duration between story and questions
 #   6: 12016_1_2_happy     (happy)
 #   7: 9227_3_1_spontaneous (spontaneous)
 #
-# Each story appears in each position at most once across the 4 orders.
-# Max 1 consecutive same-emotion pair per order (unavoidable given 4 happy stories).
+# Constraints:
+# - Latin square: each story appears in each position at most once across 4 orders
+# - No consecutive same-speaker stories (12008 has 3 stories, 12016 has 2)
+# - Max 1 consecutive same-emotion pair per order
 STORY_ORDERS = {
-    'A': [0, 1, 2, 3, 4, 5, 6, 7],
-    'B': [2, 3, 4, 5, 6, 7, 0, 1],
-    'C': [4, 5, 6, 7, 0, 1, 2, 3],
-    'D': [6, 7, 0, 1, 2, 3, 4, 5],
+    'A': [2, 6, 0, 7, 1, 4, 5, 3],
+    'B': [1, 3, 4, 5, 2, 6, 0, 7],
+    'C': [3, 1, 7, 0, 5, 2, 6, 4],
+    'D': [5, 0, 3, 1, 4, 7, 2, 6],
 }
 
 # %% Experiment instructions

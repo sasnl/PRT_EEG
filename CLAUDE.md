@@ -215,14 +215,14 @@ Story pool is defined in `code/stimuli_preprocessing/story_questions_mapping_poo
 Each story has 5 comprehension questions (3 multiple-choice + 2 free response).
 
 ### Presentation Orders (Latin Square)
-Stories are pseudo-randomized using 4 rows from an 8x8 cyclic Latin square (rows 0, 2, 4, 6 — evenly spaced). Each story appears in each position at most once across the 4 orders. Orders are emotion-aware (max 1 consecutive same-emotion pair per order).
+Stories are pseudo-randomized with constraints: Latin square (each story in each position at most once across 4 orders), no consecutive same-speaker stories (12008 has 3, 12016 has 2), and max 1 consecutive same-emotion pair per order.
 
 ```
 STORY_ORDERS = {
-    'A': [0, 1, 2, 3, 4, 5, 6, 7],  # sad hap sad hap sad hap hap spo
-    'B': [2, 3, 4, 5, 6, 7, 0, 1],  # sad hap sad hap hap spo sad hap
-    'C': [4, 5, 6, 7, 0, 1, 2, 3],  # sad hap hap spo sad hap sad hap
-    'D': [6, 7, 0, 1, 2, 3, 4, 5],  # hap spo sad hap sad hap sad hap
+    'A': [2, 6, 0, 7, 1, 4, 5, 3],  # sad hap sad spo hap sad hap hap
+    'B': [1, 3, 4, 5, 2, 6, 0, 7],  # hap hap sad hap sad hap sad spo
+    'C': [3, 1, 7, 0, 5, 2, 6, 4],  # hap hap spo sad hap sad hap sad
+    'D': [5, 0, 3, 1, 4, 7, 2, 6],  # hap sad hap hap sad spo sad hap
 }
 ```
 

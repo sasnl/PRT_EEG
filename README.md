@@ -281,18 +281,18 @@ Each story is followed by 5 comprehension questions (3 multiple-choice + 2 free 
 
 ### Presentation orders
 
-Stories are pseudo-randomized using a Latin square design (4 rows from an 8x8 cyclic Latin square, evenly spaced). Each story appears in each position at most once across the 4 orders. Orders are also emotion-aware — max 1 consecutive same-emotion pair per order.
+Stories are pseudo-randomized using a Latin square design. Each story appears in each position at most once across the 4 orders. Orders also ensure no consecutive same-speaker stories (e.g., 12008's 3 stories are always separated) and max 1 consecutive same-emotion pair per order.
 
 | Position | Order A | Order B | Order C | Order D |
 |----------|---------|---------|---------|---------|
-| 1 | 12008_1_1 (sad) | 12008_1_2 (sad) | 12015_1_2 (sad) | 12016_1_2 (happy) |
-| 2 | 12008_1_2 (happy) | 12014_1_2 (happy) | 12016_1_1 (happy) | 9227_3_1 (spon.) |
-| 3 | 12008_1_2 (sad) | 12015_1_2 (sad) | 12016_1_2 (happy) | 12008_1_1 (sad) |
-| 4 | 12014_1_2 (happy) | 12016_1_1 (happy) | 9227_3_1 (spon.) | 12008_1_2 (happy) |
-| 5 | 12015_1_2 (sad) | 12016_1_2 (happy) | 12008_1_1 (sad) | 12008_1_2 (sad) |
-| 6 | 12016_1_1 (happy) | 9227_3_1 (spon.) | 12008_1_2 (happy) | 12014_1_2 (happy) |
-| 7 | 12016_1_2 (happy) | 12008_1_1 (sad) | 12008_1_2 (sad) | 12015_1_2 (sad) |
-| 8 | 9227_3_1 (spon.) | 12008_1_2 (happy) | 12014_1_2 (happy) | 12016_1_1 (happy) |
+| 1 | 12008_1_2 (sad) | 12008_1_2 (happy) | 12014_1_2 (happy) | 12016_1_1 (happy) |
+| 2 | 12016_1_2 (happy) | 12014_1_2 (happy) | 12008_1_2 (happy) | 12008_1_1 (sad) |
+| 3 | 12008_1_1 (sad) | 12015_1_2 (sad) | 9227_3_1 (spon.) | 12014_1_2 (happy) |
+| 4 | 9227_3_1 (spon.) | 12016_1_1 (happy) | 12008_1_1 (sad) | 12008_1_2 (happy) |
+| 5 | 12008_1_2 (happy) | 12008_1_2 (sad) | 12016_1_1 (happy) | 12015_1_2 (sad) |
+| 6 | 12015_1_2 (sad) | 12016_1_2 (happy) | 12008_1_2 (sad) | 9227_3_1 (spon.) |
+| 7 | 12016_1_1 (happy) | 12008_1_1 (sad) | 12016_1_2 (happy) | 12008_1_2 (sad) |
+| 8 | 12014_1_2 (happy) | 9227_3_1 (spon.) | 12015_1_2 (sad) | 12016_1_2 (happy) |
 
 Assign orders to participants in rotation: participant 1 → A, participant 2 → B, participant 3 → C, participant 4 → D, participant 5 → A, etc.
 
