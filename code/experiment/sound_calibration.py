@@ -42,8 +42,9 @@ def main():
     print(f"\nFile: {os.path.basename(wav_path)}")
     print(f"stim_db: {STIM_DB}")
 
-    audio, _ = read_wav(wav_path)
-    duration = audio.shape[1] / FS
+    audio, audio_fs = read_wav(wav_path)
+    duration = audio.shape[1] / audio_fs
+    print(f"Audio shape: {audio.shape}, sample rate: {audio_fs}")
     print(f"Duration: {duration:.1f}s (will loop)")
 
     ec_args = dict(
