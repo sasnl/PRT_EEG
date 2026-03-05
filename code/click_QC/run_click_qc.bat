@@ -38,6 +38,6 @@ set /p vhdr="Enter path to .vhdr file: "
 echo.
 echo Running QC on: %vhdr%
 echo.
-python code\click_QC\click_qc.py "%vhdr%"
+python C:\Users\PBS\Desktop\PRT_EEG\code\click_QC\click_qc.py "%vhdr%"
 echo.
 pause
