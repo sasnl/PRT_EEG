@@ -58,9 +58,7 @@ STORY_ORDERS = {
 }
 
 # %% Experiment instructions
-INSTRUCTION_TEXT_1 = """Great job with the clicks! Now we are going to listen to some stories.\n\n
-
-You will listen to different stories.\n
+INSTRUCTION_TEXT_1 = """You are going to listen to different stories.\n\n
 
 After each story, you will answer 5 questions about what you heard.\n
 
@@ -74,7 +72,7 @@ Take your time and do your best.\n
 
 """
 
-FIRST_STORY_INSTRUCTION = """Great! We are ready to start.\n
+FIRST_STORY_INSTRUCTION = """
 
 Remember:
 
@@ -83,8 +81,6 @@ Remember:
 - When the story plays, keep your eyes on the cross (+) in the middle of the screen.\n
 
 - Do your best to stay as still as you can while the stories are playing.\n
-
-Let's begin with the first story!\n
 
 """
 
@@ -270,7 +266,7 @@ def main():
     with ExperimentController(**ec_args) as ec:
         # Show initial instructions
         ec.screen_prompt(INSTRUCTION_TEXT_1, live_keys=['space'])
-        ec.screen_prompt(INSTRUCTION_TEXT_3, live_keys=['space'])
+        # ec.screen_prompt(INSTRUCTION_TEXT_3, live_keys=['space'])
 
         # Show instruction before first story
         ec.screen_prompt(FIRST_STORY_INSTRUCTION, live_keys=['space'])
@@ -344,7 +340,7 @@ def main():
             ec.wait_secs(PAUSE_DUR)
 
             # Show transition to questions
-            ec.screen_text("Story finished!",
+            ec.screen_text("Great Job!",
                            pos=[0, 0.2], units='norm', color='w')
             ec.screen_text(
                 " Now you will answer some questions about this story.\n"

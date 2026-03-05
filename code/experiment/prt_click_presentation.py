@@ -36,11 +36,13 @@ STIM_DB = 65  # Stimulus volume in dB
 
 # %% Experiment instructions
 INSTRUCTION_SOUND_CHECK = """
-We are going to do a quick sound check first.
+We are going to do a sound check\n 
 
-You will hear a short part of a story.
+You will hear a short part of a story\n
 
-Please tell us if you can hear it clearly!
+You should hear the story clearly and\n
+
+the sound should be coming from both earphones.
 """
 
 INSTRUCTION_CLICKS = """
@@ -50,7 +52,7 @@ Great! Now we are going to listen to some clicking sounds!
 INSTRUCTION_END = """
 Great job!
 
-Now we are ready for the stories.
+Now we are ready to listen to some stories.
 """
 
 
@@ -146,7 +148,7 @@ def main():
         ec.trial_ok()
 
         ec.screen_prompt(
-            "Did you hear the story clearly?",
+            "Did you hear the story clearly?\n\nWas the sound playing from both earphones?",
             live_keys=['space'])
 
         # --- Click Trains ---
