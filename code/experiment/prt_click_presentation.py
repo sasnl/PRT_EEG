@@ -30,9 +30,16 @@ from expyfun.io import read_wav
 import glob
 
 # %% Parameters
+
+############ GET PERMISSION BEFORE CHANGING ###############
+############ ONLY CHANGE BY 1 DECIBEL, DO NOT LOWER THAN 60 ###########
+STIM_DB = 65  # Stimulus volume in dB 
+############ DO NOT CHANGE ANYTHING BELOW HERE
+############
+
+# %% 
 FS = 48000  # Sample rate
 N_CHANNELS = 2  # Stereo output
-STIM_DB = 65  # Stimulus volume in dB
 
 # %% Experiment instructions
 INSTRUCTION_SOUND_CHECK = """
