@@ -19,7 +19,7 @@ order (A/B/C/D).
 
 # %% Set up sound device
 import os
-os.environ['SD_ENABLE_ASIO'] = '1'
+os.environ['SD_ENABLE_ASIO'] = '1' ####### DO NOT TOUCH THIS ########
 import sounddevice as sd
 
 # %% Import libraries
@@ -29,10 +29,18 @@ from expyfun import ExperimentController, decimals_to_binary
 from expyfun.io import read_wav
 import threading
 
+
 # %% Parameters
+
+############ GET PERMISSION BEFORE CHANGING ###############
+############ ONLY CHANGE BY 1 DECIBEL, DO NOT LOWER THAN 60 ###########
+STIM_DB = 65  # Stimulus volume in dB 
+############ DO NOT CHANGE ANYTHING BELOW HERE
+############
+
+# %% 
 FS = 48000  # Sample rate
 N_CHANNELS = 2  # Stereo output
-STIM_DB = 65  # Stimulus volume in dB
 PAUSE_DUR = 1.0  # Pause duration between story and questions
 
 # %% Story presentation orders (Latin square with speaker/emotion constraints)
