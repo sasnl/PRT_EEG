@@ -168,16 +168,23 @@ def main():
 
         print(f"Loaded {len(loaded_clicks)} click trains.")
 
-        # Show fixation cross for the entire click session
-        ec.screen_text("+", pos=(0.75, 0), units='norm',
-                        color='white', font_size=64)
-        ec.flip()
-        ec.wait_secs(1.0)
-
         for i, click_data in enumerate(loaded_clicks):
+            # Show trial number and wait for Space
+            ec.screen_text(
+                f"Click {i + 1} of {len(loaded_clicks)}",
+                pos=[0, 0], units='norm', color='w', font_size=32)
+            ec.flip()
+            ec.wait_one_press(max_wait=np.inf, live_keys=['space'])
+
             ec.load_buffer(click_data)
 
             ec.identify_trial(ec_id=f"click_{i}", ttl_id=[])
+
+            # Show fixation cross
+            ec.screen_text("+", pos=(0.75, 0), units='norm',
+                            color='white', font_size=64)
+            ec.flip()
+            ec.wait_secs(1.0)
 
             t_start = ec.start_stimulus()
 
@@ -197,10 +204,6 @@ def main():
 
             ec.stop()
             ec.trial_ok()
-
-            # 1s pause between click trains (skip after last one)
-            if i < len(loaded_clicks) - 1:
-                ec.wait_secs(1.0)
 
         # --- End ---
         ec.screen_prompt(INSTRUCTION_END, live_keys=['space'])
