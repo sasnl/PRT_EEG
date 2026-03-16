@@ -139,7 +139,7 @@ def main():
         ec.flip()
         ec.wait_secs(1.0)
 
-        t_start = ec.start_stimulus()
+        t_start = ec.start_stimulus(start_of_trial=False)
 
         # Redraw cross after starting stimulus so it stays on screen
         ec.screen_text("+", pos=(0.75, 0), units='norm',
