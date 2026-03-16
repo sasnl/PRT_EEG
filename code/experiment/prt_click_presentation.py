@@ -131,7 +131,7 @@ def main():
 
         ec.load_buffer(story_audio)
 
-        ec.identify_trial(ec_id="sound_check", ttl_id=[])
+        ec.identify_trial(ec_id="sound_check", ttl_id=[3])
 
         # Show fixation cross for 1 second before sound check starts
         ec.screen_text("+", pos=(0.75, 0), units='norm',
@@ -139,7 +139,7 @@ def main():
         ec.flip()
         ec.wait_secs(1.0)
 
-        t_start = ec.start_stimulus(start_of_trial=False)
+        t_start = ec.start_stimulus()
 
         # Redraw cross after starting stimulus so it stays on screen
         ec.screen_text("+", pos=(0.75, 0), units='norm',
