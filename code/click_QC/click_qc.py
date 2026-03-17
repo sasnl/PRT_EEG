@@ -438,7 +438,34 @@ def main():
         other_events = events[events[:, 2] != click_event_id]
         events = np.vstack([other_events, click_events])
         events = events[events[:, 0].argsort()]  # re-sort by sample
-    print(f"Click triggers (after dedup): {len(click_events)}")
+    # The sound check also sends S1 triggers via start_stimulus().
+    # Identify click trains by measuring S1-to-S2 duration for each trial.
+    # Click trains are ~60s; sound check is ~10s. Use 30s as threshold.
+    s2_event_id = None
+    for key, val in event_dict.items():
+        if '2' in key:
+            s2_event_id = val
+            break
+    if s2_event_id is None and '2' in event_dict:
+        s2_event_id = event_dict['2']
+
+    if s2_event_id is not None and len(click_events) > 5:
+        s2_events = events[events[:, 2] == s2_event_id]
+        s2_samples = s2_events[:, 0]
+        durations_s = []
+        for s1 in click_events:
+            # Find the first S2 after this S1
+            later_s2 = s2_samples[s2_samples > s1[0]]
+            if len(later_s2) > 0:
+                durations_s.append((later_s2[0] - s1[0]) / eeg_fs)
+            else:
+                durations_s.append(0.0)
+        is_click = [d >= 30.0 for d in durations_s]
+        print(f"Found {len(click_events)} S1 triggers after dedup. "
+              f"S1-to-S2 durations (s): {[f'{d:.1f}' for d in durations_s]}")
+        click_events = click_events[is_click]
+        print(f"Kept {len(click_events)} triggers with duration >= 30s (click trains)")
+    print(f"Click triggers used: {len(click_events)}")
 
     # %% Scalp EEG QC (before picking ABR-only channels)
     print("Checking scalp EEG channels...")
