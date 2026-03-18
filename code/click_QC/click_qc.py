@@ -509,6 +509,12 @@ def main():
     n_epoch_click = len(epochs_click)
     print(f"Found {n_epoch_click} epochs.")
 
+    # Keep only the last 5 epochs (click trains); earlier ones may be sound check
+    if n_epoch_click > 5:
+        print(f"Trimming to last 5 epochs (dropping first {n_epoch_click - 5} non-click epochs).")
+        epoch_click = epoch_click[-5:]
+        n_epoch_click = 5
+
     # %% Load click wave files and convert to pulse trains
     print("Loading click stimuli...")
     x_in = np.zeros((n_epoch_click, int(t_click * eeg_fs)), dtype=float)
