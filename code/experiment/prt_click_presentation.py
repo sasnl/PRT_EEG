@@ -191,28 +191,14 @@ def main():
             ec.stamp_triggers([1])
 
             duration = click_data.shape[1] / FS
-            n_total = len(loaded_clicks)
-            bar_len = 20
+
+            # Show fixation cross during playback (no progress bar)
+            ec.screen_text("+", pos=(0.75, 0), units='norm',
+                            color='white', font_size=64)
+            ec.flip()
 
             while ec.current_time < t_start + duration:
                 ec.check_force_quit()
-                # Update progress bar
-                elapsed = ec.current_time - t_start
-                frac = min(elapsed / duration, 1.0)
-                filled = int(frac * bar_len)
-                bar_str = '\u2588' * filled + '\u2591' * (bar_len - filled)
-                # Fixation cross
-                ec.screen_text("+", pos=(0.75, 0), units='norm',
-                                color='white', font_size=64)
-                # Overall progress
-                ec.screen_text(
-                    f"Click {i + 1} of {n_total}",
-                    pos=[0, -0.3], units='norm', color='w', font_size=24)
-                # Progress bar
-                ec.screen_text(
-                    f"[{bar_str}]",
-                    pos=[0, -0.5], units='norm', color='w', font_size=24)
-                ec.flip()
                 ec.wait_secs(0.5)
 
             ec.stop()
