@@ -444,6 +444,10 @@ def main():
         print(f"Found {len(click_events)} S1 triggers after dedup. "
               f"Taking the last 5 as click train trials.")
         click_events = click_events[-5:]
+        # Rebuild events array so mne.Epochs only sees these 5 click triggers
+        other_events = events[events[:, 2] != click_event_id]
+        events = np.vstack([other_events, click_events])
+        events = events[events[:, 0].argsort()]
     print(f"Click triggers used: {len(click_events)}")
 
     # %% Scalp EEG QC (before picking ABR-only channels)
