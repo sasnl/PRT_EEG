@@ -101,7 +101,7 @@ def detect_abr_peaks(abr_response, lags):
     """Detect ABR Waves I, III, V in expected latency ranges."""
     wave_windows = {
         'I':   (0.0, 5.0),
-        'III': (3.5, 6.5),
+        'III': (3.5, 7.0),
         'V':   (5.0, 9.0),
     }
 
