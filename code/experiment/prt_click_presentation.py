@@ -178,7 +178,7 @@ def main():
 
             ec.load_buffer(click_data)
 
-            ec.identify_trial(ec_id=f"click_{i}", ttl_id=[])
+            ec.identify_trial(ec_id=f"click_{i}", ttl_id=[1])
 
             # Show fixation cross
             ec.screen_text("+", pos=(0.75, 0), units='norm',
