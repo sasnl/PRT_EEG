@@ -122,11 +122,12 @@ python click_qc.py <path_to_vhdr_file> [--stim_path <click_dir>]
 8. Compute SNR (Shan et al. 2023 method)
 9. Identify ABR peaks (Waves I, III, V)
 
-### Trigger Deduplication
-The click presentation script (`prt_click_presentation.py`) sends TWO S1 triggers per click train:
-- `ec.start_stimulus()` sends the FIRST S1 (actual audio onset)
-- `ec.stamp_triggers([1])` sends the SECOND S1 ~0.1s later
-The QC script keeps the FIRST trigger in each pair (minimum 1s gap between valid triggers).
+### Trigger Behavior
+The click presentation script (`prt_click_presentation.py`) sends ONE trigger per click train:
+- `ec.start_stimulus()` automatically sends a trigger at audio onset (built into expyfun for non-TDT hardware)
+- expyfun also sends an automatic S2 at trial end (hardcoded)
+- `identify_trial(ttl_id=[])` passes an empty list so no additional triggers are sent via the binary encoding path
+- Note: expyfun's `ttl_id` parameter uses binary encoding `(value + 1) << 2`, so `ttl_id=[0]` → S4, `ttl_id=[1]` → S8 — these are NOT raw trigger values
 
 ### SNR Calculation (Shan et al. 2023, Scientific Reports)
 - sigma^2_S+N = variance of ABR in [0, 15] ms

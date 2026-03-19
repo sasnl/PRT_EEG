@@ -178,7 +178,7 @@ def main():
 
             ec.load_buffer(click_data)
 
-            ec.identify_trial(ec_id=f"click_{i}", ttl_id=[1])
+            ec.identify_trial(ec_id=f"click_{i}", ttl_id=[])
 
             # Show fixation cross
             ec.screen_text("+", pos=(0.75, 0), units='norm',
@@ -187,8 +187,6 @@ def main():
             ec.wait_secs(1.0)
 
             t_start = ec.start_stimulus()
-
-            ec.stamp_triggers([1])
 
             duration = click_data.shape[1] / FS
 

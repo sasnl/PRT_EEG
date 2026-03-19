@@ -423,9 +423,8 @@ def main():
             print("Warning: Could not find 'Stimulus/S 1' event. Using event ID 1 as default.")
             click_event_id = 1
 
-    # Filter duplicate triggers: start_stimulus and stamp_triggers both send S1,
-    # producing pairs ~0.1s apart. Keep the FIRST event in each pair (start_stimulus
-    # marks actual audio onset).
+    # Filter triggers to keep only valid click train onsets.
+    # start_stimulus() sends one automatic trigger per trial at audio onset.
     click_events = events[events[:, 2] == click_event_id]
     if len(click_events) > 1:
         min_gap_samples = int(1.0 * eeg_fs)  # 1 second minimum gap
@@ -434,14 +433,14 @@ def main():
             if (click_events[i, 0] - keep[-1][0]) >= min_gap_samples:
                 keep.append(click_events[i])
         click_events = np.array(keep)
-        # Rebuild full events array with only deduplicated click events + other events
+        # Rebuild full events array with only filtered click events + other events
         other_events = events[events[:, 2] != click_event_id]
         events = np.vstack([other_events, click_events])
         events = events[events[:, 0].argsort()]  # re-sort by sample
-    # The sound check also sends S1 triggers via start_stimulus().
-    # The last 5 S1 triggers are always the click train trials.
+    # The sound check also sends a trigger via start_stimulus().
+    # The last 5 triggers are always the click train trials.
     if len(click_events) > 5:
-        print(f"Found {len(click_events)} S1 triggers after dedup. "
+        print(f"Found {len(click_events)} triggers after filtering. "
               f"Taking the last 5 as click train trials.")
         click_events = click_events[-5:]
         # Rebuild events array so mne.Epochs only sees these 5 click triggers
