@@ -205,8 +205,10 @@ def main():
     print(f"\nStarting from story {start_story_idx + 1}: "
           f"{stories_df.iloc[start_story_idx]['story_id']}")
 
-    # Filter stories from starting point
-    stories_df = stories_df.iloc[start_story_idx:].reset_index(drop=True)
+    total_stories = len(stories_df)
+
+    # Filter stories from starting point (preserve original index for display/triggers)
+    stories_df = stories_df.iloc[start_story_idx:]
 
     # %% Preload all audio files
     print("\nPreloading audio files...")
@@ -286,13 +288,15 @@ def main():
             story_id = story_row['story_id']
             emotion = story_row['emotion']
 
+            story_num = story_idx + 1  # 1-based story number
+
             print(f"\n{'='*60}")
-            print(f"Story {story_idx + 1}/{len(stories_df)}: "
+            print(f"Story {story_num}/{total_stories}: "
                   f"{story_id} ({emotion})")
             print(f"{'='*60}")
 
             # Display story prompt
-            ec.screen_text(f"Story {story_idx + 1} of {len(stories_df)}",
+            ec.screen_text(f"Story {story_num} of {total_stories}",
                            pos=[0, 0.2], units='norm', color='w')
             ec.flip()
 
@@ -301,7 +305,7 @@ def main():
 
             # Play story
             if story_audio[story_id] is not None:
-                show_loading_screen(ec, f"Loading story {story_idx + 1}...")
+                show_loading_screen(ec, f"Loading story {story_num}...")
                 ec.load_buffer(story_audio[story_id])
 
                 story_duration = story_audio[story_id].shape[1] / FS
@@ -338,7 +342,7 @@ def main():
 
                 # Write story data
                 ec.write_data_line("story", {
-                    "story_num": story_idx,
+                    "story_num": story_num,
                     "story_id": story_id,
                     "emotion": emotion,
                     "duration": story_duration
