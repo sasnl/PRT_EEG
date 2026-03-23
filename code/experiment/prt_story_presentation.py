@@ -52,17 +52,17 @@ PAUSE_DUR = 1.0  # Pause duration between story and questions
 #   4: 12015_1_2_sad       (sad)
 #   5: 12016_1_1_happy     (happy)
 #   6: 12016_1_2_happy     (happy)
-#   7: 9227_3_1_spontaneous (spontaneous)
+#   7: 12014_1_2_spontaneous (spontaneous)
 #
 # Constraints:
 # - Latin square: each story appears in each position at most once across 4 orders
 # - No consecutive same-speaker stories (12008 has 3 stories, 12016 has 2)
 # - Max 1 consecutive same-emotion pair per order
 STORY_ORDERS = {
-    'A': [2, 6, 0, 7, 1, 4, 5, 3],
-    'B': [1, 3, 4, 5, 2, 6, 0, 7],
-    'C': [3, 1, 7, 0, 5, 2, 6, 4],
-    'D': [5, 0, 3, 1, 4, 7, 2, 6],
+    'A': [2, 6, 0, 7, 1, 4, 5, 3],  # sad hap sad spo hap sad hap hap
+    'B': [1, 3, 4, 5, 2, 6, 0, 7],  # hap hap sad hap sad hap sad spo
+    'C': [3, 1, 7, 0, 5, 2, 6, 4],  # hap hap spo sad hap sad hap sad
+    'D': [5, 0, 3, 1, 4, 7, 2, 6],  # hap sad hap hap sad spo sad hap
 }
 
 # %% Experiment instructions
