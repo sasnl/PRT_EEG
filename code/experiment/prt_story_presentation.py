@@ -52,7 +52,7 @@ PAUSE_DUR = 1.0  # Pause duration between story and questions
 #   4: 12015_1_2_sad       (sad)
 #   5: 12016_1_1_happy     (happy)
 #   6: 12016_1_2_happy     (happy)
-#   7: 12014_1_2_spontaneous (spontaneous)
+#   7: 9227_3_1_spontaneous  (spontaneous)
 #
 # Constraints:
 # - Latin square: each story appears in each position at most once across 4 orders
