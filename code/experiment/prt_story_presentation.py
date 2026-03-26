@@ -70,6 +70,10 @@ INSTRUCTION_TEXT_1 = """You are going to listen to different stories.\n\n
 
 After each story, you will answer 5 questions about what you heard.\n
 
+Answer all of the questions to the best of your ability, even if you aren't 100%% sure about the answer.\n
+
+For any open ended questions, there is no right or wrong answer.\n
+
 """
 
 INSTRUCTION_TEXT_3 = """
