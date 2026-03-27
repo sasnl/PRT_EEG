@@ -70,10 +70,6 @@ INSTRUCTION_TEXT_1 = """You are going to listen to different stories.\n\n
 
 After each story, you will answer 5 questions about what you heard.\n
 
-Answer all of the questions to the best of your ability, even if you aren't 100%% sure about the answer.\n
-
-For any open ended questions, there is no right or wrong answer.\n
-
 """
 
 INSTRUCTION_TEXT_3 = """
@@ -363,7 +359,8 @@ def main():
                 " You will see the question on the screen and you will also"
                 " hear the question.\n"
                 " Please wait until the whole question is read aloud and"
-                " then tell us your answer.",
+                " then tell us your answer.\n"
+                " Try your best to answer every question, even if you are not sure about your answer",
                 pos=[0, -0.1], units='norm', color='w')
             ec.flip()
             ec.wait_one_press(max_wait=np.inf, live_keys=['space'])
