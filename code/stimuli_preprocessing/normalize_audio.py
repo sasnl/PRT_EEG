@@ -11,22 +11,27 @@ import soundfile as sf
 from pathlib import Path
 import argparse
 
+# Experiment scripts hardcode FS=48000 and expyfun does not resample on load,
+# so every file written into stim_normalized/ must be at this rate.
+TARGET_FS = 48000
 
-def normalize_audio(input_path, output_path, target_rms=0.01):
+
+def normalize_audio(input_path, output_path, target_rms=0.01, target_fs=TARGET_FS):
     """
-    Normalize audio file to target RMS level.
+    Normalize audio file to target RMS level and resample to target_fs.
 
     Args:
         input_path: Path to input WAV file
         output_path: Path to output normalized WAV file
         target_rms: Target RMS level (default: 0.01)
+        target_fs: Target sample rate in Hz (default: 48000)
 
     Returns:
         dict: Statistics about the normalization
     """
     try:
-        # Load audio with original sample rate
-        audio_data, sample_rate = librosa.load(input_path, sr=None, mono=False)
+        # Load audio and resample to target_fs so stim_normalized is always 48 kHz
+        audio_data, sample_rate = librosa.load(input_path, sr=target_fs, mono=False)
 
         # Calculate current RMS
         current_rms = np.sqrt(np.mean(audio_data ** 2))
