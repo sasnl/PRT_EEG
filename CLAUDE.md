@@ -152,7 +152,7 @@ The click presentation script (`prt_click_presentation.py`) sends ONE trigger pe
 - Wave I: [0, 5] ms
 - Wave III: [3.5, 5.5] ms
 - Wave V: [5, 9] ms
-- All three waves are always annotated on the plot
+- Peaks are detected for the text report only. They are NOT annotated on the plot — automated peak detection is not reliable enough to mark on the QC figure.
 
 ### Quality Thresholds
 - SNR < 0 dB: POOR
@@ -167,7 +167,7 @@ The click presentation script (`prt_click_presentation.py`) sends ONE trigger pe
 - Excludes ABR channels (Plus_R, Minus_R, Plus_L, Minus_L) and Audio channel
 
 ### Output
-- Figure (`{basename}_abr_qc.png`): 2 panels - ABR waveform [-10, 15] ms with peak annotations + SNR text box, and per-channel std dev bar chart
+- Figure (`{basename}_abr_qc.png`): 2 panels - ABR waveform [-10, 15] ms with SNR text box (no peak annotations), and per-channel std dev bar chart
 - Text report (`{basename}_abr_qc.txt`): SNR, peak latencies/amplitudes, epoch count, quality summary, scalp channel table
 - Both saved alongside the input .vhdr file
 

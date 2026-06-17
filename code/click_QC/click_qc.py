@@ -273,17 +273,8 @@ def plot_abr(abr_response, lags, peaks, snr_db, eeg_file, output_png, channel_st
     plot_mask = (lags >= -10) & (lags <= 15)
     ax.plot(lags[plot_mask], abr_response[plot_mask], 'k-', linewidth=1.2)
 
-    colors = {'I': 'red', 'III': 'blue', 'V': 'green'}
-    for wave_name in ['I', 'III', 'V']:
-        p = peaks[wave_name]
-        if p['found']:
-            ax.plot(p['latency_ms'], p['amplitude_uv'], 'o',
-                    color=colors[wave_name], markersize=8, zorder=5)
-            ax.annotate(f"Wave {wave_name}",
-                        xy=(p['latency_ms'], p['amplitude_uv']),
-                        xytext=(5, 10), textcoords='offset points',
-                        fontsize=10, fontweight='bold',
-                        color=colors[wave_name])
+    # Peak markers/annotations intentionally omitted: automated peak detection
+    # is not reliable enough to annotate on the QC plot.
 
     if snr_db is not None:
         snr_text = f"SNR = {snr_db:.2f} dB"
