@@ -10,7 +10,7 @@ and visual response options.
 Usage:
     python prt_story_presentation.py
 
-The script will interactively prompt for participant ID (5-digit),
+The script will interactively prompt for participant ID (4- or 5-digit),
 visit number (1-digit), session number (1-digit), and story presentation
 order (A/B/C/D).
 
@@ -137,9 +137,9 @@ def main():
     print("  PRT Story Presentation Experiment")
     print("=" * 40)
 
-    pid = input("\nEnter participant ID (5 digits, e.g., 12544): ").strip()
-    while not (pid.isdigit() and len(pid) == 5):
-        pid = input("Invalid. Enter a 5-digit participant ID: ").strip()
+    pid = input("\nEnter participant ID (4 or 5 digits, e.g., 12544): ").strip()
+    while not (pid.isdigit() and (len(pid) == 4 or len(pid) == 5)):
+        pid = input("Invalid. Enter a 4- or 5-digit participant ID: ").strip()
 
     visit = input("Enter visit number (1 digit, e.g., 1): ").strip()
     while not (visit.isdigit() and len(visit) == 1):

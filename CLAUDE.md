@@ -48,6 +48,19 @@ Audio files follow the pattern: `{SubjectID}_{session}_{emotion}_{device}_q{numb
 - Story files: Located in `{ID}_{session}_{emotion}/story/`
 - Question files: Located in `{ID}_{session}_{emotion}/questions/` with 5 questions per condition
 
+### Filename Convention Quirks (important when replacing re-recorded files)
+The filename in `stim_normalized/` does NOT always match the `{ID}_{session}_{emotion}_q{N}.wav` pattern. Preserve existing filenames exactly when replacing files so the `story_questions_mapping_pool.csv` stays valid:
+- `12008_1_2_happy/questions/` → `12008_1_2_happy_q{N}.wav`
+- `12008_1_2_sad/questions/` → `12008_2_sad_studio_q{N}.wav` (drops the `1_`, adds `_studio_`)
+- `9227_3_1_spontaneous/questions/` → `9227_3_1_spontaneous_nvidia_q{N}.wav`
+- Source `stimuli/` uses the same filenames as `stim_normalized/` (not the user's Downloads names).
+
+### Re-recording Replacement Workflow
+When re-recording questions:
+1. Copy new files from Downloads into `stimuli/{cond}/questions/` using the **existing** source filename (rename on copy — do not use the Downloads filename).
+2. Re-normalize only the replaced files via `normalize_audio.normalize_audio(src, dst, target_rms=0.01)` (imports from `code/stimuli_preprocessing/normalize_audio.py`). Output goes to 48 kHz mono in `stim_normalized/`.
+3. Verify `fs=48000` on all outputs — experiment scripts hardcode `FS=48000` and expyfun does not resample.
+
 ## Commands
 
 ### Audio Analysis
@@ -199,7 +212,7 @@ Uses `stim_normalized/` directory (relative to project root) for both click file
 ```bash
 python prt_story_presentation.py
 ```
-Interactive prompts for participant ID (5-digit), visit number (1-digit), session number (1-digit), and story order (A/B/C/D). PID is passed to `ExperimentController(participant=pid, session=f"{visit}{session}")` for expyfun logging/output naming.
+Interactive prompts for participant ID (4- or 5-digit), visit number (1-digit), session number (1-digit), and story order (A/B/C/D). PID is passed to `ExperimentController(participant=pid, session=f"{visit}{session}")` for expyfun logging/output naming.
 
 ### Stimulus Pool
 All participants receive the same 8 stories (~29.5 min total). No pre/post session split.
