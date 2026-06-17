@@ -184,6 +184,14 @@ The click presentation script (`prt_click_presentation.py`) sends ONE trigger pe
 - numpy, scipy, matplotlib, mne
 - No expyfun dependency — uses `scipy.io.wavfile` for loading click WAV files
 
+### Known ~2 ms ABR Latency Offset (NOT a bug — do not "fix" in the script)
+Click ABR peaks read ~2 ms later than textbook (e.g. main peak ~7.4 ms in `data/12501_3_1.EEG-selected/`). This was investigated (2026-06-17) and is physical/physiological, not a timing skew:
+- **Trigger is aligned to acoustic output within 0.14 ms.** Measured by comparing first click on the recorded `Audio` channel vs the digital WAV across all 5 trains → 0.139 ms, identical every train. There is NO trigger-vs-audio skew.
+- **Why no skew is possible:** expyfun's sound-card trigger is built as extra audio channels concatenated to the stimulus in the SAME output buffer (`np.concatenate(..., axis=1)` in `_sound_controller.py`), so the trigger pulse and audio start on the same sample. `SOUND_CARD_FIXED_DELAY` (set on the Windows presentation PC) shifts the whole buffer — trigger and audio equally — so it cannot create a skew either.
+- **Breakdown of the ~7.4 ms peak:** ~0.14 ms DAC/buffer + ~0.9 ms insert-earphone tube transit (NOT captured by the `Audio` channel — it is an electrical loopback of the output, not a mic at the eartip) + ~6.4 ms genuine Wave V latency (normal for 65 dB clicks; Wave V is later at lower levels).
+- **The `Audio` channel availability varies:** live in `12501_3_1` (std ~0.013 during train vs ~0.0002 quiet), but FLAT/empty in the earlier `12544_2_1` pilot.
+- **Decision: the QC script is intentionally NOT corrected for this** — most data was already collected/QC'd with it, and the ~1 ms offset is fixed and consistent across recordings, so it can be corrected uniformly post-hoc if ever needed. Deferred enhancement: derive `x_in` from the `Audio` channel when live (auto-detect, fall back to WAV) + a configurable `--tube_delay_ms` (~0.9 for ER-3A) to reference latencies to sound-at-eardrum.
+
 ## Click Presentation Script
 
 ### Location
